@@ -51,9 +51,9 @@ class GifFinder extends Component {
             selectShowNum: s.selectShowNum
         })
         .then(res => {
-            console.log("find Gif response", res);
-            if(res.data.data){
-                this.setState({ pulledGifs: res.data.data });
+            console.log("find Gif response", res.data);
+            if(res.data.info){
+                this.setState({ pulledGifs: res.data.info.data });
             }
         })
     }
@@ -69,7 +69,7 @@ class GifFinder extends Component {
         
         let text = (
           <div className="card" style={{borderColor:"none"}}>
-            <img className="card-img" src={image.src} alt="activeGif" />
+            <img className="card-img" style={{maxHeight: "50vh", maxWidth: "100%"}} src={image.src} alt="activeGif" />
             <button type="button" onClick={() => this.saveGif(image.id)}>Save</button>
           </div>
         )
@@ -96,7 +96,7 @@ class GifFinder extends Component {
                     title={this.state.title}
                     onConfirm={() => this.setState({ show: false })}
                 >
-                    <div style={styles.sweetBox}>
+                    <div style={styles.sweetBox} onClick={()=> this.setState({ show: false  })}>
                         {this.state.modelInfo}
                     </div>
                 </SweetAlert>
@@ -145,8 +145,7 @@ const styles = {
         flexDirection: "row",
         justifyContent: "space-around"
     },
-    sweetBox:{ 
-        maxHeight: "100%", 
+    sweetBox:{  
         minWidth: "50%", 
         overflow: "auto" 
     }

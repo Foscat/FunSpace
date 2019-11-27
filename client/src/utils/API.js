@@ -38,9 +38,8 @@ export default {
 
   // search for a gif
   searchGiphy: function(searchInfo){
-    let si = searchInfo;
-    console.log(si);
-    return axios.get(`https://api.giphy.com/v1/gifs/search?q=${si.selectCategory}&api_key=2P4Am3JiMqyMkTDMeKLxWRyAoCsIDkhy&limit=${si.selectShowNum}&tag=trending`);
+    console.log(searchInfo);
+    return axios.post("/api/gifs/search", searchInfo);
   },
 
   // save a gif
@@ -50,4 +49,16 @@ export default {
 
 
   /////// Event routes \\\\\\
+
+  searchForMovieInfo: function(movie){
+    return axios.post("/api/eventsInfo/movies", movie)
+  },
+
+  searchForBandInfo: function(band){
+    return axios.post("/api/eventsInfo/bands", band);
+  },
+
+  searchForMusicInfo: function(track){
+    return axios.post("/api/eventsInfo/music")
+  }
 }
