@@ -3,23 +3,12 @@ import TextCard from "../TextCard";
 
 const MovieBlock = props => {
 
-    const actorsList = () =>{
-        
-        let actors = props.actors;
-        console.log("actors list", actors)
-        let list = <ul>{actors.forEach(actor => {
-            console.log(actor);
-            return <li>{actor}</li>
-        })}</ul>;
-
-        return list;
-    }
-
-
     return(
         <TextCard
+            className={props.className}
             title={props.title}
             subtitle={`Director: ${props.director}`}
+            contentStyle={styles.movieContent}
         >
 
             <div className="card-img">
@@ -28,15 +17,39 @@ const MovieBlock = props => {
 
             <div className="row">
                 <div className="col-10">
-                    Plot: {props.plot}
+                    
+                    <div>
+                        <p className="card-text">
+                            Plot: {props.plot}
+                        </p>
+                    </div>
+
+                    <div>
+                        <h6>Relese Details</h6>
+                        <ul>
+                            <li>
+                                Rating {props.rated}
+                            </li>
+
+                            <li>
+                                Genre {props.genres.length ? (
+                                    <ul>
+                                        {props.genres.map(genre => {
+                                            return <li key={genre}>{genre}</li>
+                                        })}
+                                    </ul>
+                                ) : (<p>No genres listed</p>)}
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
             <div className="row">
+
                 <div className="col-6">
-                    <h5>Actors</h5>
+                    <h5 className="mx-auto">Actors</h5>
                     {props.actors.length ? (
-                        
                         <ul style={styles.list}>
                             {props.actors.map(actor => {
                                 return <li key={actor}>{actor}</li>;
@@ -50,7 +63,6 @@ const MovieBlock = props => {
                     {props.ratings.length ? (
                         
                         <ul style={styles.list}>
-                            <li>{`OMDB: ${props.ombdRating}`}</li>
                             {props.ratings.map(rating => {
                                 return <li key={rating.Source}>{`${rating.Source}: ${rating.Value}`}</li>;
                             })}
@@ -66,7 +78,12 @@ const MovieBlock = props => {
 };
 
 const styles = {
-    list: {listStyle:"none"}
+    list: {
+        listStyle:"none"
+    },
+    movieContent: {
+        margin: "0 auto"
+    }
 };
 
 export default MovieBlock;

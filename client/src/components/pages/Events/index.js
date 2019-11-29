@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, Form, FormGroup, Label, Input} from 'reactstrap';
 import API from '../../../utils/API';
 import MovieBlock from '../../parts/MovieBlock';
+import ResponseBlock from '../../parts/ResponseBlock';
 
 class Events extends Component {
 
@@ -11,8 +12,17 @@ class Events extends Component {
         this.state = {
           searchType: "",
           selectEventType: "",
-          term: ""
+          term: "",
+          eventInfo: []
         }
+    }
+
+    componentDidMount(){
+      console.log("Event component mount state", this.state);
+    }
+
+    componentDidUpdate(){
+      console.log("Event component update state", this.state);
     }
 
     handleInputChange = event => {
@@ -48,6 +58,7 @@ class Events extends Component {
         case "Movies":
           return API.searchForMovieInfo({term:s.term}).then(res => {
             console.log("Returned movie info response", res.data);
+            this.setState({ eventInfo: res.data.info });
           }).catch(err => {
             console.error("There was a error with movie info request", err);
           });
@@ -102,18 +113,26 @@ class Events extends Component {
                 <Button onClick={() => this.seachEvents()} color="primary">Search</Button>
               </Form>
 
+              <div className="row">
+                <ResponseBlock data={this.state.eventInfo} />
+              </div>
+
 
               <div className="row">
 
-                <MovieBlock 
+                <MovieBlock
+                  className="col-10 align-self-center mx-auto" 
                   title="Movie test"
-                  ombdRating="PG"
+                  rated="PG"
                   director="K-Fizzle"
                   actors={["Mary", "Joe", "Phil"]} 
                   poster="https://m.media-amazon.com/images/M/MV5BMzE3ZTc5ZjctN2RhZS00NTljLWFkNzgtYWQ1ZjA2NTJmOWE4XkEyXkFqcGdeQXVyNjE5MjUyOTM@._V1_SX300.jpg"
                   ratings={[ { Source: 'Internet Movie Database', Value: '6.1/10' },{ Source: 'Rotten Tomatoes', Value: '53%' },{ Source: 'Metacritic', Value: '56/100' } ]}
                   plot="A lonely and mentally disturbed cable guy raised on television just wants a new friend, but his target, a designer, rejects him, with bad consequences."
+                  genres={["Comdey", "Slap-Stick"]}
                 />
+
+                
               </div>
           </div>
         )
